@@ -1,0 +1,94 @@
+<div class="mt-5 ">
+  <form action="" [formGroup]="form">
+
+    <div class="row">
+      
+      <div class="col-md-4">
+  
+        <div class="form-group">
+         
+          <input type="text" class="form-control" formControlName="id" placeholder="ID">
+         
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">          
+          <input type="text" class="form-control" formControlName="nome" placeholder="Nome">         
+        </div>
+      </div>
+    </div>
+
+    <div formArrayName="books">
+
+      <div class="row" *ngFor="let book of form.get('books').controls; let i=index">
+        <div class="col-md-12" [formGroupName]="i">
+          <div class="form-group" >          
+            <select formControlName="book" class="form-control">
+              <option value="">Selecione</option>
+              <option value="" *ngFor="let livro of livros" [value]="livro.id">{{livro?.title}}</option>
+            </select>      
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <div class="col-md-4">        
+        <button class="btn btn-primary btn-block" routerLink="/author">Novo</button>        
+      </div>      
+      <div class="col-md-4">
+        <button class="btn btn-primary btn-block"  (click)="clickAddBook()">Add book</button>
+      </div>
+      <div class="col-md-4">
+        <button class="btn btn-primary btn-block" [disabled]="!form.valid" (click)="save()">Save</button>
+      </div>
+      
+      
+   
+     
+    </div>
+  </form>
+
+  <pre>
+    {{form.value | json}}
+  </pre>
+</div>
+
+<p>html -> {{html}}</p>
+
+<div class="mt-5">
+  <table class="table ">
+    <thead>
+      <th>Id</th>
+      <th>Nome</th>
+      <th>Livros</th>
+      <th>Action</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let author of authores">
+        
+        <td>{{author?.id}}</td>
+        <td>{{author?.nome}}</td>
+        <td>
+            <div *ngIf="author?.books.length  >= 0 ">
+             
+              <div *ngFor="let livro of author?.books ">
+                
+                <div class="my-1">
+                  {{livro?.title}}
+                  
+                </div>
+                
+              </div>
+            </div>
+        </td>
+        <td>
+      
+          <a class="btn btn-primary" [routerLink]="['/author',author.id]">Edit</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
